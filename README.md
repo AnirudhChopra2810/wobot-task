@@ -3,10 +3,10 @@
 It was a fun to do this task although its not perfect but it is near the requirements.
 
 1. Please make sure to add a config file in the server folder containing following options:
-DATABASE = 
-DATABASE_PASSWORD = 
-JWT_SECRET = 
-JWT_EXPIRES_IN = 
+DATABASE =  ,
+DATABASE_PASSWORD =  ,
+JWT_SECRET =  ,
+JWT_EXPIRES_IN =  ,
 
 Make sure that after "=" their is no quotes, everything is written without single or double quotes.
 
