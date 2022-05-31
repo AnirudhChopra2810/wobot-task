@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"
+            integrity="sha512-SGWgwwRA8xZgEoKiex3UubkSkV1zSE1BS6O4pXcaxcNtUlQsOmOmhVnDwIvqGRfEmuz83tIGL13cXMZn6upPyg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
+        <title>wobot task</title>
+    </head>
+    <style>
+        body {
+            font-size: roboto;
+        }
+
+        tr:nth-child(1) {
+            background: rgb(0, 5, 0) !important;
+            color: #fff !important;
+            font-size: 22px !important;
+            height: 30px;
+        }
+
+        tr:nth-child(even) {
+            background: gray;
+        }
+
+        tr:nth-child(odd) {
+            background: rgba(255, 255, 255, 0.096);
+        }
+    </style>
+
+    <body>
+        <input type="file" id="myFile">
+        <button id="uploadConfirm">Upload File</button>
+        <table></table>
+
+        <script>
+            console.log("i worked")
+            const x = document.querySelector("input");
+            x.addEventListener("change", () => {
+                const fr = new FileReader();
+                fr.onloadend = e => {
+                    let r = fr.result.split("\n").map(e => {
+                        return e.split(",");
+                    });
+                    console.log(r)
+                    r.forEach(e => {
+                        let m = e.map(e => {
+                            return `<td>${e}</td>`;
+                        }).join("");
+                        console.log(m)
+                        const ce = document.createElement("tr");
+                        ce.innerHTML = m;
+
+
+                        if (ce.innerText !== "") {
+                            document.querySelector("table").append(ce);
+
+                        }
+
+
+                    });
+
+                    // console.log(r)
+                }
+                fr.readAsText(x.files[0]);
+                console.log(fr.readAsText(x.files[0]));
+            })
+
+            const uploadConfirm = document.getElementById('uploadConfirm').addEventListener('click', () => {
+                Papa.parse(document.getElementById('myFile').files[0], {
+                    download: true,
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function (results) {
+                        const token = localStorage.getItem("token");
+                        console.log(token);
+
+                        const config = {
+                            headers: { Authorization: `Bearer ${token}` },
+                        };
+
+                        axios.post('http://localhost:3000/addProduct', results.data, config).then((res) => {
+                            console.log(res);
+
+                        }).catch((error) => {
+                            console.log(error);
+                        })
+
+                    }
+                })
+            })
+
+
+
+        </script>
+    </body>
+
+</html>
