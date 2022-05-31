@@ -36,10 +36,11 @@
     <body>
         <input type="file" id="myFile">
         <button id="uploadConfirm">Upload File</button>
+        <button id="getFile">Get File</button>
         <table></table>
 
         <script>
-            console.log("i worked")
+            console.log("i worked");
             const x = document.querySelector("input");
             x.addEventListener("change", () => {
                 const fr = new FileReader();
@@ -84,8 +85,14 @@
                             headers: { Authorization: `Bearer ${token}` },
                         };
 
-                        axios.post('http://localhost:3000/addProduct', results.data, config).then((res) => {
+                        const data = {
+                            product: results.data,
+                            Key: localStorage.getItem("id")
+                        }
+
+                        axios.post('http://localhost:3000/addProduct', data, config).then((res) => {
                             console.log(res);
+                            alert("uploaded successfully")
 
                         }).catch((error) => {
                             console.log(error);
@@ -96,7 +103,21 @@
             })
 
 
+            const getfile = document.getElementById('getFile').addEventListener('click', () => {
 
+                const token = localStorage.getItem("token");
+                console.log(token);
+
+                const config = {
+                    headers: { Authorization: `Bearer ${token}` },
+                };
+
+                let products = axios.get("http://localhost:3000/getProduct", config).then((res) => {
+                    console.log(res);
+                    alert("Please open inspect element to see the response containing data of the products");
+
+                })
+            })             
         </script>
     </body>
 

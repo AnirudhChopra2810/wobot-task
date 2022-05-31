@@ -23,7 +23,7 @@ function postData(username, password) {
     const url = `http://localhost:3000/signIn`;
     console.log(url);
     axios
-        .post(url, { Password: password, username: username })
+        .post(url, { Password: password, Username: username })
         .then((response) => {
             console.log(response);
             localStorage.setItem("token", JSON.stringify(response.data.token));

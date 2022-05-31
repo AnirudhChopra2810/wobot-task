@@ -20,7 +20,7 @@ exports.addProduct = async (req, res) => {
 
         console.log(req.body)
 
-        const Data = req.body;
+        const Data = req.body.product;
 
         Data.map(async (el) => {
 
@@ -49,21 +49,21 @@ exports.addProduct = async (req, res) => {
 
 exports.getProduct = async (req, res) => {
     try {
-        //   console.log(req.headers);
-        //   const token = req.headers.authorization.split(" ")[1];
+        console.log(req.headers);
+        const token = req.headers.authorization.split(" ")[1];
 
-        //   console.log(token);
-        //   const verify = await jwt.verify(JSON.parse(token), process.env.JWT_SECRET);
+        console.log(token);
+        const verify = await jwt.verify(JSON.parse(token), process.env.JWT_SECRET);
 
-        //   console.log(verify.id);
+        console.log(verify.id);
 
-        //   if (!verify) return res.send("invalid Token");
+        if (!verify) return res.send("invalid Token");
 
-        //   const user = await User.findOne({ _id: verify.id });
+        const user = await User.findOne({ _id: verify.id });
 
-        //   if (!user) return res.send("User not found");
+        if (!user) return res.send("User not found");
 
-        // const todo = await Todo.find({ Key: verify.id });
+        const product = await Product.find({ Key: verify.id });
 
         res.send({
             Product: product,
